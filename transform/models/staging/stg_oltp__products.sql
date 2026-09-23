@@ -11,7 +11,7 @@ select
     unit_of_measure_id,
     unit_price,
     case
-        when discontinued then 'Si'
+        when discontinued then 'Sí'
         else 'No'
     end as is_discontinued
 from source
