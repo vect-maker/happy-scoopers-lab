@@ -1,4 +1,4 @@
-with source as ( select * from {{ source('r' , 'products') }} )
+with source as ( select * from {{ source('raw' , 'products') }} )
 select
     product_id, product_name, product_code, product_description,
     subcategory id, unit_of_measure id, unit_price,
