@@ -32,7 +32,8 @@ reset:         ## Destruir todo y reinicializar desde cero
 	docker compose down -v && docker compose up -d
 
 # Fase 1: extracción y carga (EL)
-el-full:       ## Carga completa oltp -> dwh.raw (borra estado incremental)
+el-full:       ## Carga completa oltp -> dwh.raw (borra estado incremental y destruye schemas dependientes)
+	docker exec happy_scoopers_dwh psql -U dwh -d happy_scoopers_dwh -c "DROP SCHEMA IF EXISTS staging CASCADE; DROP SCHEMA IF EXISTS intermediate CASCADE; DROP SCHEMA IF EXISTS marts CASCADE; DROP SCHEMA IF EXISTS snapshots CASCADE; DROP SCHEMA IF EXISTS raw CASCADE; CREATE SCHEMA raw;" || true
 	$(PY) el/pipeline.py --full
 
 el:            ## Carga incremental (solo filas con modified_date nuevo)
@@ -71,6 +72,7 @@ cycle: transform/dbt_packages  ## Ciclo completo del pipeline: EL -> snapshot ->
 
 # Fase 4: carga incremental del fact
 cycle-full: transform/dbt_packages  ## Reconstrucción total: EL --full + build --full-refresh
+	docker exec happy_scoopers_dwh psql -U dwh -d happy_scoopers_dwh -c "DROP SCHEMA IF EXISTS staging CASCADE; DROP SCHEMA IF EXISTS intermediate CASCADE; DROP SCHEMA IF EXISTS marts CASCADE; DROP SCHEMA IF EXISTS snapshots CASCADE; DROP SCHEMA IF EXISTS raw CASCADE; CREATE SCHEMA raw;" || true
 	$(PY) el/pipeline.py --full
 	cd transform && DBT_PROFILES_DIR=. $(DBT) snapshot && $(DBT) build --full-refresh
 

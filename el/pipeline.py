@@ -85,6 +85,30 @@ def main():
         dataset_name="raw",          # schema de aterrizaje en el dwh
     )
 
+    if args.full:
+        if args.dest == "postgres":
+            try:
+                with pipeline.sql_client() as client:
+                    client.execute_sql("""
+                        DROP SCHEMA IF EXISTS staging CASCADE;
+                        DROP SCHEMA IF EXISTS intermediate CASCADE;
+                        DROP SCHEMA IF EXISTS marts CASCADE;
+                        DROP SCHEMA IF EXISTS snapshots CASCADE;
+                        DROP SCHEMA IF EXISTS raw CASCADE;
+                        CREATE SCHEMA raw;
+                    """)
+            except Exception:
+                pass
+        try:
+            pipeline.drop()
+            pipeline = dlt.pipeline(
+                pipeline_name=f"happy_scoopers_el_{args.dest}",
+                destination=DESTINATIONS[args.dest](),
+                dataset_name="raw",
+            )
+        except Exception:
+            pass
+
     load_info = pipeline.run(
         build_source(),
         refresh="data" if args.full else None,
