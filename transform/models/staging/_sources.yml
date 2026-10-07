@@ -12,3 +12,4 @@ sources:
       - name: cities
       - name: countries
       - name: provinces
+      - name: customers
