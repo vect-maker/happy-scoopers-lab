@@ -50,9 +50,9 @@ TABLES = [
      "payment_types",
      "countries", "provinces", "cities", "addresses",
      "products", "product_subcategories",
-     "product_categories", "product_departments", "units_of_measure"
-    # Lab 5: + "customers", "employees", "promotions"
-    # Lab 6: + "orders", "order_lines", "package_types"
+     "product_categories", "product_departments", "units_of_measure",
+     "customers", "employees", "promotions",
+ "orders", "order_lines", "package_types"
 ]
 
 
