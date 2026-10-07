@@ -8,3 +8,7 @@ sources:
       - name: product_categories
       - name: product_subcategories
       - name: units_of_measure
+      - name: addresses
+      - name: cities
+      - name: countries
+      - name: provinces
