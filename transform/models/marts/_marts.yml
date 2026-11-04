@@ -49,3 +49,12 @@ models:
         data_tests: [not_null]
       - name: payment_type_name
         data_tests: [not_null]
+  - name: dim_promotion
+    description: >
+      Dimensión Promoción (catálogo, SCD1). Una fila por promoción + fila
+      "desconocido" (promotion_key = '-1') para ventas sin promoción.
+    columns:
+      - name: promotion_key
+        data_tests: [unique, not_null]
+      - name: promotion_id
+        data_tests: [not_null]

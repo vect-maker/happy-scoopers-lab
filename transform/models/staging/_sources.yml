@@ -14,3 +14,4 @@ sources:
       - name: provinces
       - name: customers
       - name: payment_types
+      - name: promotions
