@@ -38,3 +38,14 @@ models:
     columns:
       - name: customer_key
         data_tests: [unique, not_null]
+  - name: dim_payment_type
+    description: >
+      Dimensión Tipo de Pago (catálogo enumerado, SCD1: sin historial).
+      Una fila por tipo de pago + fila "desconocido" (payment_type_key = '-1').
+    columns:
+      - name: payment_type_key
+        data_tests: [unique, not_null]
+      - name: payment_type_id
+        data_tests: [not_null]
+      - name: payment_type_name
+        data_tests: [not_null]

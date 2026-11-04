@@ -111,7 +111,7 @@ def main():
 
     load_info = pipeline.run(
         build_source(),
-        refresh="data" if args.full else None,
+        refresh="drop_data" if args.full else None,
     )
 
     # Resumen: cuántas filas viajaron por tabla en ESTA ejecución
